@@ -14,15 +14,16 @@ public class PourDetector : MonoBehaviour
 
     private void Update()
     {
-        bool pourCheck = CalculatePourAngel() < pourThreshold;
+        bool pourCheck = CalculatePourAngel() > pourThreshold;
 
-        if(isPouring != pourCheck)
+        if (isPouring != pourCheck)
         {
             isPouring = pourCheck;
             if (isPouring)
             {
                 StartPour();
-            } else 
+            }
+            else
             {
                 EndPour();
             }
@@ -32,21 +33,28 @@ public class PourDetector : MonoBehaviour
 
     private void StartPour()
     {
-        print("start");
+        Debug.Log("Pouring started");
         currentStream = CreateStream();
-        currentStream.Begin();
+        if (currentStream != null)
+        {
+            currentStream.Begin();
+        }
     }
 
     private void EndPour()
     {
-        print("end");
-        currentStream.End();
-        currentStream = null;
+        Debug.Log("Pouring ended");
+        if (currentStream != null)
+        {
+            currentStream.End();
+            currentStream = null;
+        }
     }
 
     private float CalculatePourAngel()
     {
-        return transform.forward.y * Mathf.Rad2Deg;
+        Vector3 pourDirection = -transform.up; // Local downward direction
+        return Vector3.Angle(Vector3.down, pourDirection);
     }
 
     private Stream CreateStream()
