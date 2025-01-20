@@ -2,17 +2,18 @@ using UnityEngine;
 
 public class BowlDetector : MonoBehaviour
 {
-    public float maxFill = 100f; // Maximum fill level
-    public float fillRate = 1f;  // Amount added per particle collision
+    public float maxFill = 100f;  // Maximum fill level
+    public float fillRate = 0.0001f;  // Amount added per particle collision (adjust to a smaller value for slower filling)
+    public float timeToFill = 1f; // Time in seconds to add a fixed amount of fill (for slower filling)
     public Transform liquidFill; // Reference to liquid fill object for visualization (can be ignored for now)
     public bool hasIceCube = false; // To check if an ice cube is in contact with the bowl
 
     private float currentFill = 0f;
+    private float lastFillTime = 0f;
 
     // This method is called when an object first collides with the bowl
     private void OnCollisionEnter(Collision collision)
     {
-        // Check if the ice cube is touching the bowl
         if (collision.gameObject.CompareTag("IceCube"))
         {
             hasIceCube = true; // Ice cube has touched the bowl
@@ -39,25 +40,31 @@ public class BowlDetector : MonoBehaviour
         }
     }
 
+    // This method is called when a particle collides with the bowl
     private void OnParticleCollision(GameObject other)
     {
         if (other.CompareTag("Liquid")) // Ensure the pouring stream has the correct tag
         {
-            // Increment fill level by a fixed amount
-            currentFill += fillRate;
-            currentFill = Mathf.Clamp(currentFill, 0, maxFill); // Clamp within range
-
-            // Log the current fill level
-            Debug.Log("Current fill level: " + currentFill);
-
-            // Check if the bowl is full
-            if (currentFill >= maxFill)
+            // Check if enough time has passed to add fill to the bowl
+            if (Time.time - lastFillTime >= timeToFill)
             {
-                Debug.Log("Bowl is full!");
-            }
-            else
-            {
-                Debug.Log("Bowl is not full yet.");
+                currentFill += fillRate; // Add fill based on the rate
+                currentFill = Mathf.Clamp(currentFill, 0, maxFill); // Clamp within the bowl's max fill level
+
+                lastFillTime = Time.time; // Update the last fill time
+
+                // Log the current fill level
+                Debug.Log("Current fill level: " + currentFill);
+
+                // Check if the bowl is full
+                if (currentFill >= maxFill)
+                {
+                    Debug.Log("Bowl is full!");
+                }
+                else
+                {
+                    Debug.Log("Bowl is not full yet.");
+                }
             }
         }
     }
