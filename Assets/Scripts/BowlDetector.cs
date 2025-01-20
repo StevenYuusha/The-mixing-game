@@ -7,7 +7,7 @@ public class BowlDetector : MonoBehaviour
     public float timeToFill = 1f; // Time in seconds to add a fixed amount of fill (for slower filling)
     public Transform liquidFill; // Reference to liquid fill object for visualization (can be ignored for now)
     public bool hasIceCube = false; // To check if an ice cube is in contact with the bowl
-
+    public bool hasSake = false;
     private float currentFill = 0f;
     private float lastFillTime = 0f;
 
@@ -56,6 +56,8 @@ public class BowlDetector : MonoBehaviour
                 // Log the current fill level
                 Debug.Log("Current fill level: " + currentFill);
 
+                hasSake = true;
+
                 // Check if the bowl is full
                 if (currentFill >= maxFill)
                 {
@@ -79,5 +81,10 @@ public class BowlDetector : MonoBehaviour
     public bool IsIceCubeInBowl()
     {
         return hasIceCube; // Return true if the ice cube is in contact with the bowl
+    }
+
+    public bool IsSakeInBowl()
+    {
+        return hasSake;
     }
 }

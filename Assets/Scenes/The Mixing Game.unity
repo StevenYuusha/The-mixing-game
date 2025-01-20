@@ -187,15 +187,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.05
+  m_fontSize: 34.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -251,10 +251,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 868778768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: -1160, y: -542}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &138418323
 GameObject:
@@ -921,19 +921,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6504037249797295763, guid: 43eaa06112baf304ba03b0e3634d568d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8830376
+      value: 0.9098577
       objectReference: {fileID: 0}
     - target: {fileID: 6504037249797295763, guid: 43eaa06112baf304ba03b0e3634d568d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.36576614
+      value: -0.37687546
       objectReference: {fileID: 0}
     - target: {fileID: 6504037249797295763, guid: 43eaa06112baf304ba03b0e3634d568d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.2716579
+      value: -0.16035071
       objectReference: {fileID: 0}
     - target: {fileID: 6504037249797295763, guid: 43eaa06112baf304ba03b0e3634d568d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.11252439
+      value: -0.06641945
       objectReference: {fileID: 0}
     - target: {fileID: 6504037249797295763, guid: 43eaa06112baf304ba03b0e3634d568d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2178,6 +2178,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
+--- !u!1 &639186552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 639186554}
+  - component: {fileID: 639186553}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &639186553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639186552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83532c1630b2efb418cd44911d42ce20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: {fileID: 1193840188}
+  bowlDetector: {fileID: 1527197756}
+  FinishText: {fileID: 137039556}
+--- !u!4 &639186554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639186552}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.13243389, y: 0.16, z: -0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &642144790
 GameObject:
   m_ObjectHideFlags: 0
@@ -3278,8 +3325,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   hours: 0
-  minutes: 1
-  seconds: 0
+  minutes: 0
+  seconds: 30
   startAtRuntime: 1
   hoursDisplay: 0
   minutesDisplay: 1
@@ -3290,7 +3337,7 @@ MonoBehaviour:
   textMeshProText: {fileID: 661804596}
   standardSlider: {fileID: 0}
   dialSlider: {fileID: 1178797661}
-  timeRemaining: 60
+  timeRemaining: 30
 --- !u!224 &1193840189
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3941,8 +3988,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxFill: 100
   fillRate: 5
+  timeToFill: 1
   liquidFill: {fileID: 0}
   hasIceCube: 0
+  hasSake: 0
 --- !u!1 &1560186734
 GameObject:
   m_ObjectHideFlags: 0
@@ -4484,3 +4533,4 @@ SceneRoots:
   - {fileID: 1136721071}
   - {fileID: 1598377264350823666}
   - {fileID: 868778768}
+  - {fileID: 639186554}
