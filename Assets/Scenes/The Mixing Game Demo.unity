@@ -501,8 +501,8 @@ Transform:
   m_GameObject: {fileID: 139671849}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1056643, y: 3.2249765, z: 0.594}
-  m_LocalScale: {x: 1.5, y: 1, z: 0.01}
+  m_LocalPosition: {x: -0.1056643, y: 3.63, z: 0.585}
+  m_LocalScale: {x: 1.5, y: 1.45, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1481065021}
@@ -829,8 +829,8 @@ Transform:
   m_GameObject: {fileID: 304709397}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1056643, y: 3.2249765, z: 0.029814929}
-  m_LocalScale: {x: 1.5, y: 1, z: 0.01}
+  m_LocalPosition: {x: -0.1056643, y: 3.63, z: 0.029814929}
+  m_LocalScale: {x: 1.5, y: 1.45, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1481065021}
@@ -3412,9 +3412,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  hours: 1
-  minutes: 0
-  seconds: 0
+  hours: 0
+  minutes: 1
+  seconds: 30
   startAtRuntime: 1
   hoursDisplay: 0
   minutesDisplay: 1
@@ -3425,7 +3425,7 @@ MonoBehaviour:
   textMeshProText: {fileID: 661804596}
   standardSlider: {fileID: 0}
   dialSlider: {fileID: 1178797661}
-  timeRemaining: 3600
+  timeRemaining: 90
 --- !u!224 &1193840189
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4233,8 +4233,8 @@ Transform:
   m_GameObject: {fileID: 1525990868}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.455, y: 3.2249765, z: 0.61881495}
-  m_LocalScale: {x: 1.5000001, y: 1, z: 0.009999999}
+  m_LocalPosition: {x: -0.455, y: 3.63, z: 0.61881495}
+  m_LocalScale: {x: 1.5000001, y: 1.45, z: 0.009999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1481065021}
@@ -4573,8 +4573,8 @@ Transform:
   m_GameObject: {fileID: 2036871127}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.324, y: 3.2249765, z: 0.619}
-  m_LocalScale: {x: 1.5000001, y: 1, z: 0.009999999}
+  m_LocalPosition: {x: 0.324, y: 3.63, z: 0.619}
+  m_LocalScale: {x: 1.5000001, y: 1.45, z: 0.009999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1481065021}
@@ -4893,20 +4893,20 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 224010830}
-  - {fileID: 1481065021}
   - {fileID: 1560186736}
   - {fileID: 1225848859379569214}
   - {fileID: 723077757}
+  - {fileID: 621499149}
+  - {fileID: 1481065021}
   - {fileID: 1811848875}
   - {fileID: 495555759}
   - {fileID: 670862756}
   - {fileID: 274441671}
-  - {fileID: 621499149}
   - {fileID: 1193840189}
   - {fileID: 138418327}
   - {fileID: 1184038241}
   - {fileID: 1136721071}
   - {fileID: 1598377264350823666}
+  - {fileID: 54492385}
   - {fileID: 868778768}
   - {fileID: 639186554}
-  - {fileID: 54492385}
