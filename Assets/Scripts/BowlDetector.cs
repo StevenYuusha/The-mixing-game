@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class BowlDetector : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class BowlDetector : MonoBehaviour
     public bool hasJuice = false;
     private float currentFill = 0f;
     private float lastFillTime = 0f;
+    public TextMeshProUGUI fillLevelText;
+    public TextMeshProUGUI ingredientAddingText;
+
 
     // This method is called when an object first collides with the bowl
     private void OnCollisionEnter(Collision collision)
@@ -39,6 +43,7 @@ public class BowlDetector : MonoBehaviour
             hasIceCube = false; // Ice cube has stopped touching the bowl
             Debug.Log("Ice cube has left the bowl.");
         }
+
     }
 
     // This method is called when a particle collides with the bowl
@@ -55,14 +60,18 @@ public class BowlDetector : MonoBehaviour
                 lastFillTime = Time.time; // Update the last fill time
 
                 // Log the ingredient player is adding
-                Debug.Log("You are adding: " + other.tag);
+                Debug.Log("You added: " + other.tag);
+                ingredientAddingText.text = "You added: " + other.tag;
+
                 // Log the current fill level
                 Debug.Log("Current fill level: " + currentFill);
+                fillLevelText.text = "Current fill level: " + currentFill;
 
                 // Check if the bowl is full
                 if (currentFill >= maxFill)
                 {
                     Debug.Log("Bowl is full!");
+                    fillLevelText.text = "The bowl is full!";
                 }
                 else
                 {

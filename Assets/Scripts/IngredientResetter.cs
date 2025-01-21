@@ -7,11 +7,35 @@ public class IngredientResetter : MonoBehaviour
     private List<Vector3> originalPositions = new List<Vector3>(); // List to store original positions
     private List<Quaternion> originalRotations = new List<Quaternion>(); // List to store original rotations
 
+    public float resetThreshold = 10f;  // Distance threshold for resetting
     private void Start()
     {
         // Store the initial positions and rotations of the ingredients
         StoreOriginalPositions();
     }
+
+private void Update()
+{
+    for (int i = 0; i < ingredientObjects.Count; i++)
+    {
+        if (ingredientObjects[i] != null)
+        {
+            float distance = Vector3.Distance(ingredientObjects[i].transform.position, originalPositions[i]);
+            if (distance > resetThreshold)
+            {
+                ResetIngredientAtIndex(i);
+            }
+        }
+    }
+}
+
+private void ResetIngredientAtIndex(int index)
+{
+    ingredientObjects[index].transform.position = originalPositions[index];
+    ingredientObjects[index].transform.rotation = originalRotations[index];
+    Debug.Log($"Ingredient {ingredientObjects[index].name} reset due to out-of-bounds movement.");
+}
+
 
     private void StoreOriginalPositions()
     {
