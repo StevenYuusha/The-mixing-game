@@ -8,6 +8,7 @@ public class BowlDetector : MonoBehaviour
     public Transform liquidFill; // Reference to liquid fill object for visualization (can be ignored for now)
     public bool hasIceCube = false; // To check if an ice cube is in contact with the bowl
     public bool hasSake = false;
+    public bool hasJuice = false;
     private float currentFill = 0f;
     private float lastFillTime = 0f;
 
@@ -43,7 +44,7 @@ public class BowlDetector : MonoBehaviour
     // This method is called when a particle collides with the bowl
     private void OnParticleCollision(GameObject other)
     {
-        if (other.CompareTag("Liquid")) // Ensure the pouring stream has the correct tag
+        if (other.CompareTag("Sake") || other.CompareTag("Juice")) // Ensure the pouring stream has the correct tag
         {
             // Check if enough time has passed to add fill to the bowl
             if (Time.time - lastFillTime >= timeToFill)
@@ -53,10 +54,10 @@ public class BowlDetector : MonoBehaviour
 
                 lastFillTime = Time.time; // Update the last fill time
 
+                // Log the ingredient player is adding
+                Debug.Log("You are adding: " + other.tag);
                 // Log the current fill level
                 Debug.Log("Current fill level: " + currentFill);
-
-                hasSake = true;
 
                 // Check if the bowl is full
                 if (currentFill >= maxFill)
@@ -66,6 +67,14 @@ public class BowlDetector : MonoBehaviour
                 else
                 {
                     Debug.Log("Bowl is not full yet.");
+                }
+
+                if (other.CompareTag("Sake"))
+                {
+                    hasSake = true;
+                } else if (other.CompareTag("Juice"))
+                {
+                    hasJuice = true;
                 }
             }
         }
@@ -86,5 +95,9 @@ public class BowlDetector : MonoBehaviour
     public bool IsSakeInBowl()
     {
         return hasSake;
+    }
+    public bool IsJuiceInBowl()
+    {
+        return hasJuice;
     }
 }
