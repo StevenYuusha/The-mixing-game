@@ -14,7 +14,14 @@ public class BowlDetector : MonoBehaviour
     private float lastFillTime = 0f;
     public TextMeshProUGUI fillLevelText;
     public TextMeshProUGUI ingredientAddingText;
+    public FillBar fillBar;
 
+    void Start()
+    {
+        currentFill = 0;
+        fillBar.setMinValue();
+        fillBar.setMaxValue((int)maxFill);
+    }
 
     // This method is called when an object first collides with the bowl
     private void OnCollisionEnter(Collision collision)
@@ -55,6 +62,9 @@ public class BowlDetector : MonoBehaviour
             if (Time.time - lastFillTime >= timeToFill)
             {
                 currentFill += fillRate; // Add fill based on the rate
+
+                fillBar.setFillValue((int)currentFill);//update fill bar
+
                 currentFill = Mathf.Clamp(currentFill, 0, maxFill); // Clamp within the bowl's max fill level
 
                 lastFillTime = Time.time; // Update the last fill time
@@ -81,7 +91,8 @@ public class BowlDetector : MonoBehaviour
                 if (other.CompareTag("Sake"))
                 {
                     hasSake = true;
-                } else if (other.CompareTag("Juice"))
+                }
+                else if (other.CompareTag("Juice"))
                 {
                     hasJuice = true;
                 }
