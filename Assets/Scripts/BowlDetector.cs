@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class BowlDetector : MonoBehaviour
 {
@@ -16,11 +17,19 @@ public class BowlDetector : MonoBehaviour
     public TextMeshProUGUI ingredientAddingText;
     public FillBar fillBar;
 
+    // UI Toggles for Ingredients
+    public Toggle iceCubeToggle;
+    public Toggle sakeToggle;
+    public Toggle juiceToggle;
+
     void Start()
     {
         currentFill = 0;
         fillBar.setMinValue();
         fillBar.setMaxValue((int)maxFill);
+
+        // Initialize toggle states
+        UpdateIngredientToggles();
     }
 
     // This method is called when an object first collides with the bowl
@@ -40,6 +49,7 @@ public class BowlDetector : MonoBehaviour
         {
             hasIceCube = true; // Ice cube is still in contact with the bowl
         }
+        UpdateIngredientToggles();
     }
 
     // This method is called when the ice cube stops touching the bowl
@@ -50,6 +60,7 @@ public class BowlDetector : MonoBehaviour
             hasIceCube = false; // Ice cube has stopped touching the bowl
             Debug.Log("Ice cube has left the bowl.");
         }
+        UpdateIngredientToggles();
 
     }
 
@@ -62,10 +73,10 @@ public class BowlDetector : MonoBehaviour
             if (Time.time - lastFillTime >= timeToFill)
             {
                 currentFill += fillRate; // Add fill based on the rate
-
-                fillBar.setFillValue((int)currentFill);//update fill bar
-
                 currentFill = Mathf.Clamp(currentFill, 0, maxFill); // Clamp within the bowl's max fill level
+
+                // Update the fill bar smoothly
+                fillBar.SetFillValueSmooth((int)currentFill, 0.5f); // Smooth transition over 0.5 seconds
 
                 lastFillTime = Time.time; // Update the last fill time
 
@@ -96,6 +107,7 @@ public class BowlDetector : MonoBehaviour
                 {
                     hasJuice = true;
                 }
+                UpdateIngredientToggles();
             }
         }
     }
@@ -119,5 +131,13 @@ public class BowlDetector : MonoBehaviour
     public bool IsJuiceInBowl()
     {
         return hasJuice;
+    }
+
+    private void UpdateIngredientToggles()
+    {
+        // Update the state of each toggle based on ingredient flags
+        if (iceCubeToggle) iceCubeToggle.isOn = hasIceCube;
+        if (sakeToggle) sakeToggle.isOn = hasSake;
+        if (juiceToggle) juiceToggle.isOn = hasJuice;
     }
 }
