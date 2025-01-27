@@ -518,7 +518,7 @@ GameObject:
   - component: {fileID: 187619670}
   - component: {fileID: 187619671}
   m_Layer: 5
-  m_Name: hasIcecube
+  m_Name: hasIceCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

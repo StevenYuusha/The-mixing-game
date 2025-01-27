@@ -12,20 +12,12 @@ namespace Leap.Examples
 {
     public class SpawnObjectAtPosition : MonoBehaviour
     {
-        public Transform objectToSpawn; // The prefab to spawn
-        public Transform spawnPoint;    // The position to spawn the object at
-        public Transform parent;        // The parent to assign the spawned object to
+        public Transform objectToSpawn;
+        public Transform spawnPoint;
 
         public void SpawnObject()
         {
-            // Spawn the object at the spawn point position and rotation
-            Transform spawnedObject = Instantiate(objectToSpawn, spawnPoint.position, spawnPoint.rotation);
-
-            // Set the parent of the spawned object if specified
-            if (parent != null)
-            {
-                spawnedObject.SetParent(parent, true);
-            }
+            Instantiate(objectToSpawn, spawnPoint.position, Quaternion.identity);
         }
     }
 }
