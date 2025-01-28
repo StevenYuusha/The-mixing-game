@@ -6,7 +6,7 @@ using System;
 
 public class DemoWinCheck : MonoBehaviour
 {
-    public Timer timer; // Reference to the timer
+    public MixingGameTimer timer; // Reference to the timer
     public BowlDetector bowlDetector; // Reference to the bowl detection script
 
     public TextMeshProUGUI FinishText;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 
-[CanEditMultipleObjects, CustomEditor(typeof(Timer))]
+[CanEditMultipleObjects, CustomEditor(typeof(MixingGameTimer))]
 public class TimerEditor : Editor
 {
     //Add time in seconds to editor to preview*************************************
@@ -86,27 +86,27 @@ public class TimerEditor : Editor
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(textType_Prop);
 
-            Timer.OutputType tt = (Timer.OutputType)textType_Prop.enumValueIndex;
+            MixingGameTimer.OutputType tt = (MixingGameTimer.OutputType)textType_Prop.enumValueIndex;
 
             switch (tt)
             {
-                case Timer.OutputType.StandardText:
+                case MixingGameTimer.OutputType.StandardText:
 
                     EditorGUILayout.ObjectField(standardText_Prop);
                     break;
 
-                case Timer.OutputType.TMPro:
+                case MixingGameTimer.OutputType.TMPro:
 
                     EditorGUILayout.ObjectField(textMeshPro_Prop);
                     break;
 
-                case Timer.OutputType.HorizontalSlider:
+                case MixingGameTimer.OutputType.HorizontalSlider:
 
                     EditorGUILayout.PropertyField(standardSlider_Prop);
                     EditorGUILayout.HelpBox("Use any custom slider as long as it uses the 'Slider' component", MessageType.Info);
                     break;
 
-                case Timer.OutputType.Dial:
+                case MixingGameTimer.OutputType.Dial:
 
                     EditorGUILayout.PropertyField(dialSlider_Prop);
                     EditorGUILayout.HelpBox("Use any image with the type set to 'Filled' and the 'Fill Origin' set to top", MessageType.Info);

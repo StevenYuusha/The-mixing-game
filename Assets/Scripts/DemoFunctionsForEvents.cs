@@ -7,7 +7,7 @@ public class DemoFunctionsForEvents : MonoBehaviour
 {
     public GameObject finishedText;
 
-    public Timer timer;
+    public MixingGameTimer timer;
     public void TimerStart()
     {
         finishedText.SetActive(false);

@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.Events;
 
 
-public class Timer : MonoBehaviour
+public class MixingGameTimer : MonoBehaviour
 {
     public UnityEvent onTimerEnd;
 
