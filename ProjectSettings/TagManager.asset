@@ -9,6 +9,7 @@ TagManager:
   - Ingredient
   - Sake
   - Juice
+  - PlayerHand
   layers:
   - Default
   - TransparentFX
