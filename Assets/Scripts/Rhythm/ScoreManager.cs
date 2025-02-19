@@ -1,37 +1,41 @@
 using UnityEngine;
-using TMPro; // ȷ��ʹ�� TextMeshPro
+using TMPro; // 确保你有导入 TextMeshPro
 
 public class ScoreManager : MonoBehaviour
 {
-    public TMP_Text scoreText; // ʹ�� TMP_Text ���� TextMeshPro
+    public static ScoreManager Instance; // 这是单例的关键
+    public TextMeshProUGUI scoreText; // 在 Inspector 里绑定 UI 文本
     private int score = 0;
 
-    void Start()
+    void Awake()
     {
-        UpdateScoreUI();
-    }
-
-    public void AddScore(int value)
-    {
-        score += value;
-        UpdateScoreUI();
-        Debug.Log("Score updated: " + score); // ������Ϣ
-    }
-
-    private void UpdateScoreUI()
-    {
-        if (scoreText != null)
+        // 确保单例存在，防止多个 ScoreManager 导致冲突
+        if (Instance == null)
         {
-            scoreText.text = "Score: " + score;
+            Instance = this;
         }
         else
         {
-            Debug.LogError("Score Text is not assigned in ScoreManager!");
+            Destroy(gameObject);
+            return;
         }
     }
 
-    public int GetScore()
+    public void AddScore(int amount)
     {
-        return score;
+        score += amount;
+        UpdateScoreText();
+    }
+
+    void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString();
+        }
+        else
+        {
+            Debug.LogError("ScoreText UI is not assigned in ScoreManager!");
+        }
     }
 }

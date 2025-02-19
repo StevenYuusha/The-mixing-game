@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a7b481d7b1dbece488da85f579e06513, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.015
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7b481d7b1dbece488da85f579e06513, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.015
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7b481d7b1dbece488da85f579e06513, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.015
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a7b481d7b1dbece488da85f579e06513, type: 3}
       propertyPath: m_LocalPosition.x
@@ -186,8 +186,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -203,4 +203,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbee96e24e44594d9b3d432d05263a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 3
+  lifetime: 5

@@ -2,50 +2,35 @@ using UnityEngine;
 
 public class Tail : MonoBehaviour
 {
-    public float lifetime = 3.0f; // 音符存活时间
+    public float lifetime = 3f; // 鎸佺画鏃堕棿
     private bool isHit = false;
 
     void Start()
     {
-        // 超时后自动销毁
-        Invoke(nameof(AutoDestroy), lifetime);
+        Invoke(nameof(Expire), lifetime);
     }
 
-    public void Hit()
+    void OnCollisionEnter(Collision collision)
     {
-        if (isHit) return; // 防止重复击打
-        isHit = true;
-
-        UnityEngine.Debug.Log("Tail was hit!");
-
-        ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
-        if (scoreManager != null)
+        Debug.Log("hand touch");
+        //if (isHit) return;
+        
+        if (collision.gameObject.CompareTag("PlayerHand")) // 鐗╃悊鎵嬮儴纰版挒
         {
-            scoreManager.AddScore(100);
+            isHit = true;
+            Debug.Log("Tail was hit by physical hands!");
+            ScoreManager.Instance.AddScore(10);
+            Destroy(gameObject);
+            isHit = false;
         }
-        else
-        {
-            UnityEngine.Debug.LogError("ScoreManager not found!");
-        }
-
-        Destroy(gameObject); // 删除 Tail
     }
 
-    void AutoDestroy()
+    void Expire()
     {
         if (!isHit)
         {
-            UnityEngine.Debug.Log("Tail expired and was not hit.");
-            Destroy(gameObject);
+            Debug.Log("Tail expired and was not hit.");
         }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("PlayerHand"))
-        {
-            UnityEngine.Debug.Log("PlayerHand touched Tail!");
-            Hit();
-        }
+        Destroy(gameObject);
     }
 }
