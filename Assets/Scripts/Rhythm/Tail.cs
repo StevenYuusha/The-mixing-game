@@ -3,17 +3,37 @@ using Leap.PhysicalHands;
 
 public class Tail : MonoBehaviour
 {
-    public float lifetime = 3f; // 持续时间
+    public enum TailType { Tap, Hold, Slide } // 三种音符类型
+    public TailType tailType;
+
+    public float lifetime = 3f; // 存活时间
+    public float holdTimeThreshold = 1f; // 长按时间阈值
+    public float slideSpeedMultiplier = 1.5f; // 滑动音符速度倍率
+
     private bool isHit = false;
-    private PhysicalHandsManager handsManager; // 手动获取 HandsManager
+    private bool isHolding = false;
+    private bool isSliding = false;
+    private float holdStartTime = 0f;
+    private Vector3 lastHandPosition; // 记录手的位置
+    private Rigidbody rb; // Rigidbody 用于滑动音符
+    private PhysicalHandsManager handsManager;
 
     void Start()
     {
-        Invoke(nameof(Expire), lifetime);
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = gameObject.AddComponent<Rigidbody>();
+        }
 
-        // 手动查找 HandsManager
+        rb.useGravity = false;
+        rb.isKinematic = true; // **避免 Tail 被手推飞**
+        rb.velocity = Vector3.zero; // **避免乱飞**
+
+        Invoke(nameof(Expire), lifetime); // **一定时间后自动消失**
+
+        // 查找 HandsManager
         handsManager = FindObjectOfType<PhysicalHandsManager>();
-
         if (handsManager != null)
         {
             handsManager.onContact.AddListener(OnHandContact);
@@ -24,23 +44,87 @@ public class Tail : MonoBehaviour
         }
     }
 
-    void OnHandContact(ContactHand contacthand, Rigidbody rbody)
+    void OnHandContact(ContactHand contactHand, Rigidbody rbody)
     {
-        if (isHit) return;
-        if (rbody.gameObject == gameObject) // 确保触碰的是 Tail
+        if (isHit || rbody == null || rbody.gameObject != gameObject) return;
+
+        Debug.Log($"Tail {tailType} 被手触碰!");
+
+        if (tailType == TailType.Tap)
         {
-            isHit = true;
-            Debug.Log("Tail 被手触碰到了！");
-            ScoreManager.Instance.AddScore(10); // 计分
-            Destroy(gameObject);
+            HandleTap();
+        }
+        else if (tailType == TailType.Hold)
+        {
+            isHolding = true;
+            holdStartTime = Time.time;
+        }
+        else if (tailType == TailType.Slide)
+        {
+            isSliding = true;
+            lastHandPosition = contactHand.transform.position;
+            rb.isKinematic = false; // **允许滑动**
+        }
+    }
+
+    void Update()
+    {
+        if (isHolding && Time.time - holdStartTime >= holdTimeThreshold)
+        {
+            HandleHold();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (isSliding)
+        {
+            if (rb == null) return; // **防止 MissingReferenceException**
+            
+            Vector3 handDelta = handsManager.LeftHand.transform.position - lastHandPosition;
+            rb.velocity = handDelta * slideSpeedMultiplier / Time.fixedDeltaTime;
+            lastHandPosition = handsManager.LeftHand.transform.position;
         }
     }
 
     void Expire()
     {
-        if (!isHit) 
+        if (!isHit)
         {
             Debug.Log("Tail 超时消失。");
+        }
+        Destroy(gameObject);
+    }
+
+    void HandleTap()
+    {
+        isHit = true;
+        Debug.Log("Tail 点击成功!");
+        ScoreManager.Instance.AddScore(TailType.Tap);
+        DestroyTail();
+    }
+
+    void HandleHold()
+    {
+        isHit = true;
+        Debug.Log("Tail 长按成功!");
+        ScoreManager.Instance.AddScore(TailType.Hold);
+        DestroyTail();
+    }
+
+    void HandleSlide()
+    {
+        isHit = true;
+        Debug.Log("Tail 滑动成功!");
+        ScoreManager.Instance.AddScore(TailType.Slide);
+        DestroyTail();
+    }
+
+    void DestroyTail()
+    {
+        if (rb != null)
+        {
+            rb.isKinematic = true; // **防止销毁前继续运动**
         }
         Destroy(gameObject);
     }

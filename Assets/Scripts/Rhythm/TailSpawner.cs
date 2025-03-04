@@ -1,32 +1,34 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TailSpawner : MonoBehaviour
 {
-    public GameObject tailPrefab; // Î²°ÍÔ¤ÖÆÌå
-    public Transform[] spawnPoints; // Éú³ÉµãÊı×é
-    public AudioSource musicSource; // ÒôÀÖ²¥·ÅÆ÷
-    public float[] tailTimings; // Òô·û³öÏÖÊ±¼äµã
-
+    public GameObject tailPrefab; // Tail é¢„åˆ¶ä½“
+    public AudioSource musicSource; // éŸ³ä¹æ’­æ”¾å™¨
+    public float minX = 0.2f, maxX = 0.8f; // Tail ç”Ÿæˆçš„ X è½´èŒƒå›´
+    public float minY = 0.3f, maxY = 0.8f; // Tail ç”Ÿæˆçš„ Y è½´èŒƒå›´
+    private List<float> detectedBeats; // è®°å½•é¼“ç‚¹æ—¶é—´
     private int nextTailIndex = 0;
 
     void Start()
     {
         if (musicSource == null)
         {
-            UnityEngine.Debug.LogError("TailSpawner: Music Source is not assigned!");
+            Debug.LogError("TailSpawner: Music Source is not assigned!");
             return;
         }
 
-        if (spawnPoints == null || spawnPoints.Length == 0)
+        // è·å– `BeatDetector` ç”Ÿæˆçš„èŠ‚å¥ç‚¹æ•°æ®
+        BeatDetector beatDetector = FindObjectOfType<BeatDetector>();
+        if (beatDetector != null)
         {
-            UnityEngine.Debug.LogError("TailSpawner: No spawn points assigned!");
-            return;
+            detectedBeats = beatDetector.GetDetectedBeats();
         }
-
-        if (tailTimings == null || tailTimings.Length == 0)
+        
+        if (detectedBeats == null || detectedBeats.Count == 0)
         {
-            UnityEngine.Debug.LogError("TailSpawner: No tail timings assigned!");
+            Debug.LogError("TailSpawner: No detected beats found!");
             return;
         }
 
@@ -35,15 +37,16 @@ public class TailSpawner : MonoBehaviour
 
     IEnumerator SpawnTailsWithMusic()
     {
-        while (nextTailIndex < tailTimings.Length)
-        {
-            float waitTime = tailTimings[nextTailIndex] - musicSource.time;
+        Debug.Log("TailSpawner: Starting tail generation...");
 
+        while (nextTailIndex < detectedBeats.Count)
+        {
+            float waitTime = detectedBeats[nextTailIndex] - musicSource.time;
             if (waitTime > 0)
             {
                 yield return new WaitForSeconds(waitTime);
             }
-
+            
             SpawnTail();
             nextTailIndex++;
         }
@@ -51,23 +54,14 @@ public class TailSpawner : MonoBehaviour
 
     void SpawnTail()
     {
-        if (spawnPoints == null || spawnPoints.Length == 0)
-        {
-            UnityEngine.Debug.LogError("SpawnTail: No spawn points assigned!");
-            return;
-        }
+        // è®¡ç®—éšæœºä½ç½®ï¼Œç¡®ä¿ Tail åœ¨å¯è§¦ç¢°èŒƒå›´
+        Vector3 spawnPosition = Camera.main.ViewportToWorldPoint(new Vector3(
+            Random.Range(minX, maxX),
+            Random.Range(minY, maxY),
+            Camera.main.nearClipPlane + 2f // ç¡®ä¿ Tail å¤„äºæ‘„åƒæœºå‰æ–¹
+        ));
 
-        if (nextTailIndex >= tailTimings.Length)
-        {
-            UnityEngine.Debug.LogError($"SpawnTail: nextTailIndex ({nextTailIndex}) is out of range! tailTimings.Length = {tailTimings.Length}");
-            return;
-        }
-
-        int index = UnityEngine.Random.Range(0, spawnPoints.Length);
-
-       
-        Instantiate(tailPrefab, spawnPoints[index].position, tailPrefab.transform.rotation);
-
-        UnityEngine.Debug.Log($"Spawned Tail at index {index}, nextTailIndex = {nextTailIndex}");
+        GameObject newTail = Instantiate(tailPrefab, spawnPosition, Quaternion.identity);
+        Debug.Log($"Spawned Tail at {spawnPosition}");
     }
 }

@@ -1,15 +1,21 @@
 using UnityEngine;
-using TMPro; // 确保你有导入 TextMeshPro
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance; // 这是单例的关键
-    public TextMeshProUGUI scoreText; // 在 Inspector 里绑定 UI 文本
-    private int score = 0;
+    public static ScoreManager Instance;
+
+    public int score = 0; // 当前得分
+    public int targetScore = 100; // 通过关卡的最低分数
+    public Text scoreText; // UI 显示分数
+    public GameObject gameOverPanel; // 失败面板
+    public GameObject successPanel; // 成功面板
+    public AudioSource backgroundMusic; // 背景音乐
+
+    private bool gameEnded = false;
 
     void Awake()
     {
-        // 确保单例存在，防止多个 ScoreManager 导致冲突
         if (Instance == null)
         {
             Instance = this;
@@ -17,25 +23,69 @@ public class ScoreManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            return;
         }
     }
 
-    public void AddScore(int amount)
+    void Start()
     {
-        score += amount;
-        UpdateScoreText();
+        UpdateScoreUI();
+        if (gameOverPanel) gameOverPanel.SetActive(false);
+        if (successPanel) successPanel.SetActive(false);
     }
 
-    void UpdateScoreText()
+    public void AddScore(Tail.TailType tailType)
     {
-        if (scoreText != null)
+        int points = 0;
+
+        switch (tailType)
         {
-            scoreText.text = "Score: " + score.ToString();
+            case Tail.TailType.Tap:
+                points = 10;
+                break;
+            case Tail.TailType.Hold:
+                points = 20;
+                break;
+            case Tail.TailType.Slide:
+                points = 30;
+                break;
+        }
+
+        score += points;
+        UpdateScoreUI();
+        Debug.Log($"Scored {points} points! Total score: {score}");
+    }
+
+    void UpdateScoreUI()
+    {
+        if (scoreText)
+        {
+            scoreText.text = $"Score: {score}";
+        }
+    }
+
+    public void CheckGameResult()
+    {
+        if (gameEnded) return;
+
+        gameEnded = true;
+
+        if (score >= targetScore)
+        {
+            Debug.Log("挑战成功!");
+            if (successPanel) successPanel.SetActive(true);
         }
         else
         {
-            Debug.LogError("ScoreText UI is not assigned in ScoreManager!");
+            Debug.Log("挑战失败!");
+            if (gameOverPanel) gameOverPanel.SetActive(true);
+        }
+    }
+
+    void Update()
+    {
+        if (backgroundMusic && !backgroundMusic.isPlaying && !gameEnded)
+        {
+            CheckGameResult();
         }
     }
 }

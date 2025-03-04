@@ -203,4 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbee96e24e44594d9b3d432d05263a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tailType: 0
   lifetime: 5
+  holdTimeThreshold: 1
+  slideSpeedMultiplier: 1.5
