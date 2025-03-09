@@ -51,14 +51,14 @@ public class TailSpawner : MonoBehaviour
             nextTailIndex++;
         }
     }
-
+    public float distance = 2;
     void SpawnTail()
     {
         // 计算随机位置，确保 Tail 在可触碰范围
         Vector3 spawnPosition = Camera.main.ViewportToWorldPoint(new Vector3(
             Random.Range(minX, maxX),
             Random.Range(minY, maxY),
-            Camera.main.nearClipPlane + 2f // 确保 Tail 处于摄像机前方
+            Camera.main.nearClipPlane + distance // 确保 Tail 处于摄像机前方
         ));
 
         GameObject newTail = Instantiate(tailPrefab, spawnPosition, Quaternion.identity);

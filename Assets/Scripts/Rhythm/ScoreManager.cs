@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class ScoreManager : MonoBehaviour
 
     public int score = 0; // 当前得分
     public int targetScore = 100; // 通过关卡的最低分数
-    public Text scoreText; // UI 显示分数
+    public TextMeshProUGUI scoreText; // UI 显示分数
     public GameObject gameOverPanel; // 失败面板
     public GameObject successPanel; // 成功面板
     public AudioSource backgroundMusic; // 背景音乐
@@ -51,6 +52,8 @@ public class ScoreManager : MonoBehaviour
         }
 
         score += points;
+        CheckGameResult();
+
         UpdateScoreUI();
         Debug.Log($"Scored {points} points! Total score: {score}");
     }
@@ -66,26 +69,19 @@ public class ScoreManager : MonoBehaviour
     public void CheckGameResult()
     {
         if (gameEnded) return;
-
+        if (backgroundMusic.isPlaying)
+            return;
         gameEnded = true;
 
         if (score >= targetScore)
         {
             Debug.Log("挑战成功!");
-            if (successPanel) successPanel.SetActive(true);
+            successPanel.SetActive(true);
         }
         else
         {
             Debug.Log("挑战失败!");
-            if (gameOverPanel) gameOverPanel.SetActive(true);
-        }
-    }
-
-    void Update()
-    {
-        if (backgroundMusic && !backgroundMusic.isPlaying && !gameEnded)
-        {
-            CheckGameResult();
+            gameOverPanel.SetActive(true);
         }
     }
 }

@@ -21,17 +21,10 @@ public class Tail : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            rb = gameObject.AddComponent<Rigidbody>();
-        }
-
         rb.useGravity = false;
-        rb.isKinematic = true; // **避免 Tail 被手推飞**
-        rb.velocity = Vector3.zero; // **避免乱飞**
-
-        Invoke(nameof(Expire), lifetime); // **一定时间后自动消失**
-
+        // rb.isKinematic = true; // **避免 Tail 被手推飞**
+        //rb.velocity = Vector3.zero; // **避免乱飞**
+        Destroy(gameObject, lifetime);
         // 查找 HandsManager
         handsManager = FindObjectOfType<PhysicalHandsManager>();
         if (handsManager != null)
@@ -43,7 +36,10 @@ public class Tail : MonoBehaviour
             Debug.LogError("PhysicalHandsManager 未找到！请确保它已挂载到场景中！");
         }
     }
-
+    private void OnDestroy()
+    {
+        handsManager.onContact.RemoveListener(OnHandContact);
+    }
     void OnHandContact(ContactHand contactHand, Rigidbody rbody)
     {
         if (isHit || rbody == null || rbody.gameObject != gameObject) return;
@@ -86,16 +82,6 @@ public class Tail : MonoBehaviour
             lastHandPosition = handsManager.LeftHand.transform.position;
         }
     }
-
-    void Expire()
-    {
-        if (!isHit)
-        {
-            Debug.Log("Tail 超时消失。");
-        }
-        Destroy(gameObject);
-    }
-
     void HandleTap()
     {
         isHit = true;
